@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -69,8 +68,8 @@ const HeroSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="rounded-2xl shadow-2xl bg-white dark:bg-gray-800 overflow-hidden relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/20 opacity-50"></div>
+            <div className="rounded-2xl shadow-2xl bg-card overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-secondary to-accent opacity-50"></div>
               <img 
                 src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                 alt="AI Document Analysis" 
