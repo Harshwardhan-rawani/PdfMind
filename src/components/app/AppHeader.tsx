@@ -20,7 +20,7 @@ const AppHeader = () => {
   const navigation = [
     { name: 'Dashboard', href: '/dashboard' },
     { name: 'Viewer', href: '/viewer' },
-    { name: 'Chat', href: '/chat' },
+    { name: 'Chat', href: '/chat/1' }, // Updated to use a valid chat ID
     { name: 'Settings', href: '/settings' },
   ];
   

@@ -11,14 +11,15 @@ import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
 import NotFound from "./pages/NotFound";
 
+// Create a new query client
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
       <BrowserRouter>
+        <Toaster />
+        <Sonner />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
