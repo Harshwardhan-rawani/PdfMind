@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,7 +23,7 @@ const Navbar = () => {
       animate={{ y: 0 }}
       transition={{ type: 'spring', stiffness: 100, damping: 15 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white/90 dark:bg-gray-900/90 shadow-md backdrop-blur-md' : 'bg-transparent'
+        isScrolled ? 'bg-background/90 shadow-md backdrop-blur-md' : 'bg-transparent'
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -50,6 +51,7 @@ const Navbar = () => {
           </nav>
           
           <div className="hidden md:flex items-center space-x-4">
+            <ThemeToggle />
             <Link to="/login">
               <Button variant="outline" size="sm">
                 Log in

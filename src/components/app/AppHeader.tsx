@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { motion } from 'framer-motion';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 
 const AppHeader = () => {
   const location = useLocation();
@@ -26,7 +27,7 @@ const AppHeader = () => {
   
   return (
     <motion.header 
-      className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800"
+      className="bg-background border-b border-border"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: 'spring', stiffness: 100, damping: 15 }}
@@ -56,6 +57,7 @@ const AppHeader = () => {
           </div>
           
           <div className="flex items-center space-x-4">
+            <ThemeToggle />
             <Button 
               variant="outline"
               className="hidden md:flex"
