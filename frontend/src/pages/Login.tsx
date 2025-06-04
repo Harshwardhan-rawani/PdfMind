@@ -48,7 +48,8 @@ const Login: React.FC = () => {
           title: "Login successful!",
           description: "Redirecting to dashboard...",
         });
-        navigate('/dashboard');
+        navigate('/');
+        window.location.reload(); // Force full page reload
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {

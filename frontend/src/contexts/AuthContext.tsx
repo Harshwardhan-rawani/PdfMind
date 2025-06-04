@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
+import { API_URL } from '@/config/api';
 
 interface User {
   id: string;
@@ -23,28 +24,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    // Check for stored token and user data
-    const storedToken = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
-    
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
-    }
+    // Check authentication status from backend using cookies
+    const checkAuth = async () => {
+      try {
+        const res = await axios.get(`${API_URL}/auth/verify`, { withCredentials: true });
+        if (res.data && res.data.user) {
+          setUser(res.data.user);
+          setToken('cookie'); // Just a placeholder to indicate authenticated
+        } else {
+          setUser(null);
+          setToken(null);
+        }
+      } catch {
+        setUser(null);
+        setToken(null);
+      }
+    };
+    checkAuth();
   }, []);
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post(`${API_URL}/auth/login`, {
         email,
         password,
-      });
-
-      const { token, user } = response.data;
-      setToken(token);
-      setUser(user);
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      }, { withCredentials: true });
+      if (response.data && response.data.user) {
+        setUser(response.data.user);
+        setToken('cookie');
+      }
     } catch (error) {
       console.error('Login error:', error);
       throw error;
@@ -53,17 +61,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signup = async (email: string, password: string, name: string) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/signup', {
+      const response = await axios.post(`${API_URL}/auth/signup`, {
         email,
         password,
         name,
-      });
-
-      const { token, user } = response.data;
-      setToken(token);
-      setUser(user);
-      localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      }, { withCredentials: true });
+      if (response.data && response.data.user) {
+        setUser(response.data.user);
+        setToken('cookie');
+      }
     } catch (error) {
       console.error('Signup error:', error);
       throw error;
@@ -73,8 +79,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     setToken(null);
     setUser(null);
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    // No need to clear localStorage, cookies are managed by backend
   };
 
   return (
@@ -99,4 +104,4 @@ export const useAuth = () => {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
-}; 
+};

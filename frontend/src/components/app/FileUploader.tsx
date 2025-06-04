@@ -7,7 +7,7 @@ import axios from 'axios';
 import { API_URL } from '@/config/api';
 import { Progress } from '@/components/ui/progress';
 
-const FileUploader = () => {
+const FileUploader = ({ onUploadSuccess }: { onUploadSuccess?: () => void }) => {
   const { toast } = useToast();
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -62,7 +62,7 @@ const FileUploader = () => {
       setIsUploading(true);
       setUploadProgress(0);
 
-      const response = await axios.post(`${API_URL}/upload/pdf`, formData, {
+      const response = await axios.post(`${API_URL}/upload/pdfs`, formData, {
         withCredentials: true,
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -80,8 +80,9 @@ const FileUploader = () => {
           title: "Upload successful!",
           description: "Your PDF has been uploaded successfully.",
         });
+        if (onUploadSuccess) onUploadSuccess();
         // You can handle the uploaded file URL here
-        console.log('Uploaded file URL:', response.data.url);
+        // console.log('Uploaded file URL:', response.data.url);
       }
     } catch (error) {
       console.error('Upload error:', error);
@@ -109,7 +110,7 @@ const FileUploader = () => {
       transition={{ duration: 0.5 }}
     >
       <Card className={`border-2 border-dashed rounded-lg transition-colors ${
-        isDragging ? 'border-primary bg-primary/5' : 'border-gray-300 dark:border-gray-700'
+        isDragging ? 'border-primary bg-white' : 'border-gray-300 dark:border-gray-700'
       }`}>
         <CardContent className="p-0">
           <div

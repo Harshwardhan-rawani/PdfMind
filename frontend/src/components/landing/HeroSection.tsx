@@ -51,7 +51,7 @@ const HeroSection = () => {
             
             <motion.div className="flex flex-col sm:flex-row items-center gap-4" variants={itemVariants}>
               <Link to="/dashboard">
-                <Button size="lg" className="w-full sm:w-auto bg-gradient-primary hover:opacity-90">
+                <Button size="lg" className="w-full sm:w-auto bg-gradient-primary hover:opacity-90 text-white">
                   Try For Free
                 </Button>
               </Link>

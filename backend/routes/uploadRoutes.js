@@ -1,9 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const { uploadPDF, uploadMiddleware } = require('../controllers/uploadController');
+const { uploadPDF, uploadMiddleware, listPDFs, deletePDF, getPDFInfo, renamePDF } = require('../controllers/uploadController');
 const { isAuthenticated } = require('../middleware/authMiddleware');
 
 // Protected route for PDF uploads
-router.post('/pdf', isAuthenticated, uploadMiddleware, uploadPDF);
+router.post('/pdfs', isAuthenticated, uploadMiddleware, uploadPDF);
 
-module.exports = router; 
+// Route to list all uploaded PDFs
+router.get('/pdfs', listPDFs);
+
+// Route to delete a PDF by id
+router.delete('/pdfs/:pdfId', deletePDF);
+
+// Route to get PDF info by id for chat context
+router.get('/pdf/:pdfId', getPDFInfo);
+
+// Route to rename a PDF by id
+router.put('/pdfs/:pdfId/rename', renamePDF);
+
+module.exports = router;

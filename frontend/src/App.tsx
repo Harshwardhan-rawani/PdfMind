@@ -11,6 +11,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat";
+import Settings from "./pages/Settings";
+import Viewer from "./pages/Viewer";
 
 import NotFound from "./pages/NotFound";
 
@@ -29,7 +31,6 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
-         
               <Route
                 path="/dashboard"
                 element={
@@ -43,6 +44,22 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <Chat />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  <ProtectedRoute>
+                    <Settings />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/viewer"
+                element={
+                  <ProtectedRoute>
+                    <Viewer />
                   </ProtectedRoute>
                 }
               />

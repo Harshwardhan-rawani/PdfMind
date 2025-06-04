@@ -59,7 +59,8 @@ const Signup: React.FC = () => {
           title: "Signup successful!",
           description: "Redirecting to dashboard...",
         });
-        navigate('/dashboard');
+        navigate('/');
+           window.location.reload(); 
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
