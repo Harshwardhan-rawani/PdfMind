@@ -1,0 +1,1 @@
+// No Cloudinary logic needed, just use the URLs and data from backend
