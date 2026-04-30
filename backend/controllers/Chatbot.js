@@ -2,16 +2,17 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 const pdfParse = require('pdf-parse');
+const { InferenceClient } = require("@huggingface/inference");
 
 // Extract text from a public Cloudinary PDF URL
 async function extractPdfText(pdfUrl) {
   try {
-   
-    
+
+
     const response = await axios.get(pdfUrl, {
       responseType: 'arraybuffer',
     });
-  console.log(response.status)
+    console.log(response.status)
     if (response.status !== 200) {
       console.error('PDF fetch error:', response.statusText);
       return `Failed to fetch PDF: ${response.statusText}`;
@@ -23,7 +24,7 @@ async function extractPdfText(pdfUrl) {
       return 'URL does not point to a valid PDF file.';
     }
 
-    const data = await pdfParse(response.data);
+    const data = await pdfParse(Buffer.from(response.data));
     return data.text.slice(0, 8000) || 'No text extracted from PDF.';
   } catch (error) {
     console.error('Error reading PDF:', error.message);
@@ -51,29 +52,36 @@ exports.askChatbot = async (req, res) => {
     if (!pdf) return res.status(404).json({ message: 'PDF not found' });
 
     const pdfUrl = pdf.url;
-  
+
 
     const pdfText = await extractPdfText(pdfUrl);
     console.log('Extracted text preview:', pdfText.slice(0, 100));
 
-    // Here, you can call OpenAI with the extracted `pdfText` and `question`
-    // Example (if you uncomment OpenAI logic):
-    /*
-    const completion = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
-      messages: [
-        { role: 'system', content: 'You are an AI assistant helping users with questions about uploaded PDFs.' },
-        { role: 'user', content: `PDF Content:\n${pdfText}\n\nQuestion: ${question}` },
-      ],
-      max_tokens: 512,
-      temperature: 0.3,
-    });
+    // Use Hugging Face open-source model
+    let answer;
+    try {
+      const hfApiKey = process.env.HUGGINGFACE_API_KEY;
+      if (!hfApiKey) {
+        return res.json({ answer: 'Hugging Face API key is missing. Please configure HUGGINGFACE_API_KEY in the .env file.' });
+      }
 
-    const answer = completion.data.choices[0].message.content;
+      const hf = new InferenceClient(hfApiKey);
+      const response = await hf.chatCompletion({
+        model: "meta-llama/Meta-Llama-3-8B-Instruct",
+        messages: [
+          { role: 'system', content: 'You are a helpful AI assistant that answers questions based on the provided PDF document. Be concise and accurate.' },
+          { role: 'user', content: `PDF Content:\n${pdfText}\n\nQuestion: ${question}` }
+        ],
+        max_tokens: 500,
+        temperature: 0.1,
+      });
+      answer = response.choices[0].message.content;
+    } catch (error) {
+      console.error('Error calling Hugging Face API:', error);
+      answer = 'Sorry, I am unable to generate a response at the moment. Please try again later.';
+    }
+
     return res.json({ answer });
-    */
-
-    res.json({ message: 'PDF text was extracted successfully.', preview: pdfText.slice(0, 300) });
   } catch (error) {
     console.error('Chatbot error:', error);
     res.status(500).json({ message: 'Server error while processing chatbot request.' });
