@@ -4,12 +4,12 @@ PdfMind is a full-stack AI-powered PDF analysis tool that enables users to uploa
 
 ---
 # Screenshot
-![Home](./screenshots/home.png) 
-![Features](./screenshots/feature.png)
-![Pricing](./screenshots/price.png)
-![GetInTouch](./screenshots/getintouch.png)
-![Dashboard](./screenshots/dashboard.png) 
-![Chatbot](./screenshots/chatbot.png) 
+![Home](./screenshot/home.png) 
+![Features](./screenshot/feature.png)
+![Pricing](./screenshot/price.png)
+![GetInTouch](./screenshot/getintouch.png)
+![Dashboard](./screenshot/dashboard.png) 
+![Chatbot](./screenshot/chatbot.png) 
 
 ## Table of Contents
 
