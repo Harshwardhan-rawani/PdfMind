@@ -3,6 +3,13 @@
 PdfMind is a full-stack AI-powered PDF analysis tool that enables users to upload PDF documents, analyze their content, and interact with an intelligent chatbot to extract insights or ask questions about the document. The project uses Node.js, Express, React, TypeScript, Tailwind CSS, and shadcn-ui.
 
 ---
+# Screenshot
+![Home](./screenshots/home.png) 
+![Features](./screenshots/feature.png)
+![Pricing](./screenshots/price.png)
+![GetInTouch](./screenshots/getintouch.png)
+![Dashboard](./screenshots/dashboard.png) 
+![Chatbot](./screenshots/chatbot.png) 
 
 ## Table of Contents
 
